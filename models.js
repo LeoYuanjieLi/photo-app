@@ -1,8 +1,8 @@
 'use strict';
 
 const mongoose = require("mongoose"),
-	Schema = mongoose.Schema,
-	bcrypt = require(bcrypt);
+	Schema = mongoose.Schema;
+	// bcrypt = require(bcrypt);
 
 // this is our schema to represent 2 type of users:
 // photographers and clients
@@ -48,13 +48,13 @@ const appointmentSchema = new Schema({
 	  //   },
 	location: {type:String},
 	duration: {type:Number},
-	rate: {type:String},
+	rate: {type:Number},
 	available: {type:Boolean},
 	requester: {type:String},
 	taker: {
 		type:String,
 		default:null
-		}
+		},
 	createdtime: {
 		type:Date,
 		default:Date.now
@@ -84,7 +84,7 @@ appointmentSchema.methods.serialize = function(){
 }
 // for exporting to the routers
 const user = mongoose.model('user', userSchema);
-const appointments = mongoose.model('appointment', appointmentSchema);
+const appointment = mongoose.model('appointment', appointmentSchema);
 
 module.exports = {
 	user: user,

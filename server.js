@@ -15,7 +15,22 @@ const { user, appointment } = require('./models');
 const app = express();
 app.use(bodyParser.json());
 
+// We need to connect to DB first before we run code on server;
+mongoose.connect(DATABASE_URL, err => {
+      if (err) {
+        return reject(err);
+      }
+});
+
+
+
+app.get('/appointments', (req, res) => {
+	console.log("get is connected");
+	res.send("hello world!");
+});
+
 app.post('/appointments', (req, res) => {
+	console.log("connected");
 	const requireFields = ['name', 'starttime', 'location', 'duration', 'rate', 'available', 'requester', 'taker', 'createdtime'];
 	for(let i = 0; i < requireFields.length; i++) {
 		const field = requireFields[i];
@@ -48,3 +63,9 @@ app.post('/appointments', (req, res) => {
 
 
 });
+
+
+
+app.listen(PORT, () => {
+        console.log(`Your app is listening on port ${PORT}`);
+      });
