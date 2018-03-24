@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -9,8 +9,9 @@ mongoose.Promise = global.Promise;
 
 // require PORT and DATABASE_URL from config.js
 const { PORT, DATABASE_URL } = require('./config');
-// require user, appointment from model.js
-const { user, appointment } = require('./models');
+// require User router, Appointment from different locations
+const {router: usersRouter} = require('./users');
+const {Appointment} = require('./models');
 
 const app = express();
 app.use(bodyParser.json());
@@ -41,7 +42,7 @@ app.post('/appointments', (req, res) => {
 		}
 	}
 
-	appointment
+	Appointment
 		.create({
 			name: req.body.name,
 			starttime: req.body.starttime,

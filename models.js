@@ -4,37 +4,6 @@ const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
 	// bcrypt = require(bcrypt);
 
-// this is our schema to represent 2 type of users:
-// photographers and clients
-const userSchema = new Schema({
-	username: {type: String, required: true},
-	password: {type:String, required: true},
-	usertype: {type: String, required: true},
-	firstName: {type: String, required: true},
-	lastName: {type: String, required: true},
-	address: {
-		building: String,
-		// coord will be an array of string values
-		coord: [String],
-		street: String,
-		zipcode: String
-	},
-  // reviews is an array of review objects
-	reviews: [{
-		content: {type: String},
-		reviewer: {type: String},
-		date: {type:Date}
-		}],
-
-	// appointments is an array of appointment ids
-	appointments: [String],
-	rate: {type:Number},
-	// only photographer will have bio property
-	bio: {type:String},
-	// only photographer will have portfolio
-	portfolio: [String],
-
-});
 
 const appointmentSchema = new Schema({
 	name: {type:String},
@@ -67,7 +36,7 @@ appointmentSchema.virtual('endtime').get(function(){
 	return this.starttime + this.duration;
 });
 
-// serielize the schema
+// serielize appointments schema
 appointmentSchema.methods.serialize = function(){
 
 	return {
@@ -83,10 +52,8 @@ appointmentSchema.methods.serialize = function(){
 	}
 }
 // for exporting to the routers
-const user = mongoose.model('user', userSchema);
-const appointment = mongoose.model('appointment', appointmentSchema);
+const Appointment = mongoose.model('appointment', appointmentSchema);
 
 module.exports = {
-	user: user,
-	appointment: appointment
+	Appointment: Appointment
 };
