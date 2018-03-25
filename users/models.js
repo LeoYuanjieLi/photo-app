@@ -44,7 +44,8 @@ userSchema.methods.serialize = function() {
 		// in the example file, it is ` username:this.username || '' `
 		username: this.username,
 		firstName: this.firstName,
-		lastName: this.lastName
+		lastName: this.lastName,
+		usertype: this.usertype
 
 	}
 };
