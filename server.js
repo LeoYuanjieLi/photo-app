@@ -1,5 +1,8 @@
 'use strict';
+// what does this mean?
+require('dotenv').config();
 
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,8 +17,6 @@ const {router: usersRouter} = require('./users');
 const {Appointment} = require('./models');
 
 const app = express();
-app.use(bodyParser.json());
-
 // We need to connect to DB first before we run code on server;
 mongoose.connect(DATABASE_URL, err => {
       if (err) {
@@ -24,6 +25,27 @@ mongoose.connect(DATABASE_URL, err => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -------------------Appointment endpoint (for now)-----------------------------------
+app.use(bodyParser.json());
 
 app.get('/appointments', (req, res) => {
 	console.log("get is connected");
