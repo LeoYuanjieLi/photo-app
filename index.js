@@ -13,7 +13,7 @@ const app = express();
 
 // Load Routes
 
-const ideas = require('./routes/ideas');
+const jobs = require('./routes/jobs');
 const users = require('./routes/users');
 
 // Passport Config
@@ -106,7 +106,7 @@ app.get('/about', gougou, (req, res) => {
 
 // use routes --------------------------------
 
-app.use('/ideas', ideas);
+app.use('/jobs', jobs);
 app.use('/users', users);
 
 

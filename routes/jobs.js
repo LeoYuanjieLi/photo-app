@@ -14,32 +14,31 @@ mongoose.connect('mongodb://localhost/secret-idea', {
     .then(() => {console.log("MongoDB is connected!")})
     .catch((err) => {console.log(`error message: ${err}`)}) 
 
-// import Idea Schema
-require('../models/Idea');
-const Idea = mongoose.model('ideas');
+// import Job Schema
+const { Job } = require('../models/Job');
 
 // -------------------------------------------------------
 
-// Idea Route
+// Jobs Route
 router.get('/', ensureAuthenticated, (req, res) => {
     console.log("successful connect to /ideas route.");
-    Idea.find({user: req.user.id})
+    Job.find({user: req.user.id})
     .sort({date:'desc'})
-    .then( ideas => {
+    .then( jobs => {
         res.render( './ideas/index', {
-            ideas: ideas 
+            jobs: jobs 
         })       
     });
 });
 
 
 
-// Add Idea Form Route
+// Add Job Form Route
 router.get('/add', ensureAuthenticated, (req, res) => {
-    res.render('./ideas/add');
+    res.render('./jobs/add');
 });
 
-// Edit Idea Form Route
+// Edit Job Form Route
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     Idea.findOne({
         _id: req.params.id
@@ -61,7 +60,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 });
 
 
-// Post an Idea - Process Form
+// Post an Job - Process Form
 router.post('/', ensureAuthenticated, (req, res) => {
     let errors = [];
     if (!req.body.title) {
@@ -89,16 +88,16 @@ router.post('/', ensureAuthenticated, (req, res) => {
             user: req.user.id
         }
 
-        new Idea(newUser)
+        new Job(newUser)
         .save()
-        .then(idea => {
+        .then(Job => {
             req.flash('success_msg', 'Idea added succesfully');
             res.redirect('/ideas');
         })
     }
 });
 
-// Edit an idea
+// Edit an Job
 router.put('/:id', ensureAuthenticated, (req, res) => {
     console.log("req.params are:", req.params);
     Idea.findOne({
@@ -122,7 +121,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-// Delete an idea
+// Delete an Job
 router.delete('/:id', ensureAuthenticated, (req, res) => {
     if(idea.user != req.user.id){
         req.flash('error_msg', 'Not Authorized');
