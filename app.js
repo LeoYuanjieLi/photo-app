@@ -23,6 +23,22 @@ const users = require('./routes/users');
 // Passport Config
 require('./config/passport')(passport);
 
+// DB Config
+const db = require('./config/database');
+
+
+
+
+// // Connect to mongoose
+mongoose.connect(db.mongoURI, {
+    useMongoClient: true
+})
+    .then(() => {console.log("MongoDB is connected!")})
+    .catch((err) => {console.log(`error message: ${err}`)}) 
+
+
+
+
 
 
 // Handlebars Helpers
@@ -130,7 +146,7 @@ app.use('/users', users);
 
 
 // -------------------------------------------
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, ()=> {
     console.log(`Server started on port ${port}`);

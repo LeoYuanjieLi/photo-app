@@ -7,13 +7,6 @@ const {ensureAuthenticated} = require('./helpers/auth');
 // Map global promise - get rid of warnings
 mongoose.Promise = global.Promise;
 
-// // Connect to mongoose
-mongoose.connect('mongodb://localhost/photo-app', {
-    useMongoClient: true
-})
-    .then(() => {console.log("MongoDB is connected!")})
-    .catch((err) => {console.log(`error message: ${err}`)}) 
-
 // import Job Schema
 const { Job } = require('../models/Job');
 
