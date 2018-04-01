@@ -20,13 +20,16 @@ const JobSchema = new Schema({
         type: String,
     },
     location: {
-        type: String
+        type: String,
+        required: true
     },
     starttime: {
         type: Date,
+        required: true
     },
     duration: {
         type: Number,
+        required: true
     },
 	bio: {
         type:String

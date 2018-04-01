@@ -8,7 +8,7 @@ const {ensureAuthenticated} = require('./helpers/auth');
 mongoose.Promise = global.Promise;
 
 // // Connect to mongoose
-mongoose.connect('mongodb://localhost/secret-idea', {
+mongoose.connect('mongodb://localhost/photo-app', {
     useMongoClient: true
 })
     .then(() => {console.log("MongoDB is connected!")})
@@ -21,11 +21,11 @@ const { Job } = require('../models/Job');
 
 // Jobs Route
 router.get('/', ensureAuthenticated, (req, res) => {
-    console.log("successful connect to /ideas route.");
+    console.log("successful connect to /jobs route.");
     Job.find({user: req.user.id})
     .sort({date:'desc'})
     .then( jobs => {
-        res.render( './ideas/index', {
+        res.render( './jobs/index', {
             jobs: jobs 
         })       
     });
@@ -38,21 +38,63 @@ router.get('/add', ensureAuthenticated, (req, res) => {
     res.render('./jobs/add');
 });
 
+// Post a Job - Process Form
+router.post('/', ensureAuthenticated, (req, res) => {
+    // check if the user is authorized
+    Job.find({user: req.user.id})
+    
+    let errors = [];
+    const requiredFields = ['title', 'details', 'creator', 'location', 'starttime', 'duration'];
+
+    // check if all required fields are here
+    for(let i = 0; i < requiredFields.length; i++) {
+        const field = requiredFields[i];
+        if(!field in req.body) {
+            errors.push({text: `missing ${field}, please add`});
+        }
+    }
+
+    // handle error and then if no errors add the new job to our DB
+    if(errors.length > 0) {
+        res.render('jobs/add', {
+            // we have access to errors, we send user back to the add job page
+            errors: errors,
+            title: req.body.title,
+            details: req.body.details,
+            location: req.body.location
+        });
+    } else {
+        const newUser = {};
+        for (let i = 0; i < requiredFields.length; i++) {
+            let field = requiredFields[i];
+            newUser.field = req.body.field;
+        }
+
+        new Job(newUser)
+        .save()
+        .then(Job => {
+            req.flash('success_msg', 'Job added succesfully');
+            res.redirect('/jobs');
+        })
+    }
+});
+
+
 // Edit Job Form Route
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
-    Idea.findOne({
+    Job.findOne({
         _id: req.params.id
     })
     .catch(err => {
         console.log("err found, reason:", err);
     })
-    .then(idea => {
-        if(idea.user != req.user.id){
+    .then(job => {
+        if(job.user != req.user.id){
             req.flash('error_msg', 'Not Authorized');
-            res.redirect('/ideas');
+            res.redirect('/jobs');
         } else {
-            res.render('./ideas/edit', {
-                idea: idea
+            res.render('./jobs/edit', {
+                job: job
             });
         }
     })
@@ -60,44 +102,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 });
 
 
-// Post an Job - Process Form
-router.post('/', ensureAuthenticated, (req, res) => {
-    let errors = [];
-    if (!req.body.title) {
-        errors.push({text: 'Please add a title'});
-
-    }
-
-    if (!req.body.details) {
-        errors.push({text: "text: Please add some details"});
-    }
-
-    if(errors.length > 0) {
-        res.render('ideas/add', {
-            // we have access to errros
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details
-        });
-    } else {
-        // console.log(req.body);
-        // res.send('successfully sent.');
-        const newUser = {
-            title: req.body.title,
-            details: req.body.details,
-            user: req.user.id
-        }
-
-        new Job(newUser)
-        .save()
-        .then(Job => {
-            req.flash('success_msg', 'Idea added succesfully');
-            res.redirect('/ideas');
-        })
-    }
-});
-
-// Edit an Job
+// Edit a Job
 router.put('/:id', ensureAuthenticated, (req, res) => {
     console.log("req.params are:", req.params);
     Idea.findOne({
@@ -123,17 +128,20 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 
 // Delete an Job
 router.delete('/:id', ensureAuthenticated, (req, res) => {
-    if(idea.user != req.user.id){
-        req.flash('error_msg', 'Not Authorized');
+    console.log("Job number", req.params.id, "got deleted");
+    Idea.findOne({_id: req.params.id})
+    .then( job => {
+        if(job.creator != req.user.id) {
+            req.flash('error_msg', 'Not Authorized');
+        }
+    })
+         
+    Idea.remove({_id: req.params.id})
+    .then(() => {
+        req.flash('success_msg', 'Idea deleted succesfully');
         res.redirect('/ideas');
-    } else {
-        console.log("Idea number", req.params.id, "got deleted");
-        Idea.remove({_id: req.params.id})
-        .then(() => {
-            req.flash('success_msg', 'Idea deleted succesfully');
-            res.redirect('/ideas');
-        });
-    }
+    });
+    
 })
 
 
