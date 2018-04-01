@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 
-
 const router = express.Router();
 
 // Map global promise - get rid of warnings
@@ -23,11 +22,15 @@ const User = mongoose.model('users');
 
 // -------------------------------------------------------
 
+
+
+// -------------------------------------------------------
+
 router.get('/login', (req, res) => {
     res.render("./users/login");
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', (req, res, next) => {
     res.render("./users/register");
 });
 
@@ -62,7 +65,10 @@ router.post('/register', (req, res) => {
                             name: req.body.name,
                             email: req.body.email,
                             password: req.body.password,
+                            userType: req.body.userType
                         });
+
+                        console.log(req.body);
                         bcrypt.genSalt(10, (err, salt) => {
                             bcrypt.hash(newUser.password, salt, (err, hash) => {
                                 if(err) throw err;

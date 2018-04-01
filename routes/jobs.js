@@ -135,7 +135,7 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
             req.flash('error_msg', 'Not Authorized');
         }
     })
-         
+    // Can I have two promise here? Should I chain them?  
     Idea.remove({_id: req.params.id})
     .then(() => {
         req.flash('success_msg', 'Idea deleted succesfully');

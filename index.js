@@ -16,8 +16,20 @@ const app = express();
 const jobs = require('./routes/jobs');
 const users = require('./routes/users');
 
+
+
+
+
 // Passport Config
 require('./config/passport')(passport);
+
+
+
+// Handlebars Helpers
+const {
+    select
+} = require('./helpers/hbs');
+
 
 
 
@@ -25,6 +37,11 @@ require('./config/passport')(passport);
 // --------------------------------------------------------
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
+
+    helpers: {
+        select: select
+    }, 
+
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
