@@ -9,14 +9,6 @@ const router = express.Router();
 // Map global promise - get rid of warnings
 mongoose.Promise = global.Promise;
 
-// // Connect to mongoose
-// mongoose.connect('mongodb://localhost/secret-idea', {
-//     useMongoClient: true
-// })
-//     .then(() => {console.log("MongoDB is connected!")})
-//     .catch((err) => {console.log(`error message: ${err}`)}) 
-
-// import Idea Schema
 require('../models/User');
 const User = mongoose.model('users');
 
@@ -94,7 +86,7 @@ router.post('/register', (req, res) => {
 // Login Form POST
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-      successRedirect:'/ideas',
+      successRedirect:'/jobs',
       failureRedirect: '/users/login',
       failureFlash: true
     })(req, res, next);
