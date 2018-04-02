@@ -15,7 +15,7 @@ const { Job } = require('../models/Job');
 // Jobs Route
 router.get('/', ensureAuthenticated, (req, res) => {
     console.log("successful connect to /jobs route.");
-    Job.find({user: req.user.id})
+    Job.find({})
     .sort({date:'desc'})
     .then( jobs => {
         res.render( './jobs/index', {
@@ -34,10 +34,9 @@ router.get('/add', ensureAuthenticated, (req, res) => {
 // Post a Job - Process Form
 router.post('/', ensureAuthenticated, (req, res) => {
     // check if the user is authorized
-    Job.find({user: req.user.id})
-    
+    console.log("request body is", req.user);
     let errors = [];
-    const requiredFields = ['title', 'details', 'creator', 'location', 'starttime', 'duration'];
+    const requiredFields = ['title', 'details', 'location', 'starttime', 'duration'];
 
     // check if all required fields are here
     for(let i = 0; i < requiredFields.length; i++) {
@@ -60,9 +59,10 @@ router.post('/', ensureAuthenticated, (req, res) => {
         const newUser = {};
         for (let i = 0; i < requiredFields.length; i++) {
             let field = requiredFields[i];
-            newUser.field = req.body.field;
+            newUser[field] = req.body[field];
         }
-
+        newUser["creator"] = req.user.id;
+        console.log(newUser);
         new Job(newUser)
         .save()
         .then(Job => {

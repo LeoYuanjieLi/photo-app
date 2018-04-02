@@ -85,6 +85,7 @@ router.post('/register', (req, res) => {
 
 // Login Form POST
 router.post('/login', (req, res, next) => {
+    console.log()
     passport.authenticate('local', {
       successRedirect:'/jobs',
       failureRedirect: '/users/login',

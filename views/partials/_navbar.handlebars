@@ -20,7 +20,9 @@
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Job Market</a>
             <div class="dropdown-menu">
               <a href="/jobs" class="dropdown-item">View Jobs</a>
-              <a href="/jobs/add" class="dropdown-item">Post A Job</a>
+              {{#if (isclient user)}}
+                <a href="/jobs/add" class="dropdown-item">Post A Job</a>
+              {{/if}}
             </div>
           </li>
           <li class="nav-item">

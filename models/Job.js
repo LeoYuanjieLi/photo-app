@@ -24,7 +24,7 @@ const JobSchema = new Schema({
         required: true
     },
     starttime: {
-        type: Date,
+        type: String,
         required: true
     },
     duration: {

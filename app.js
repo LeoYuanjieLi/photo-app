@@ -43,7 +43,7 @@ mongoose.connect(db.mongoURI, {
 
 // Handlebars Helpers
 const {
-    select
+    isclient
 } = require('./helpers/hbs');
 
 
@@ -55,7 +55,7 @@ const {
 app.engine('handlebars', exphbs({
 
     helpers: {
-        select: select
+        isclient: isclient
     }, 
 
     defaultLayout: 'main'
