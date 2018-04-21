@@ -1,4 +1,14 @@
 .logo {
     width: 130px;
-    margin: auto;
+    margin: auto
+}
+
+.gj-icon {
+    margin-top: 3px;
+    margin-bottom: 2px;
+    margin-right: 4px
+}
+
+#datepicker {
+    text-indent: 10px
 }
