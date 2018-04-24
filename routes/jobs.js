@@ -36,7 +36,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
     // check if the user is authorized
     console.log("request body is", req.user);
     let errors = [];
-    const requiredFields = ['title', 'details', 'location', 'starttime', 'duration'];
+    const requiredFields = ['title', 'details', 'location', 'startdate','starttime', 'duration'];
 
     // check if all required fields are here
     for(let i = 0; i < requiredFields.length; i++) {
@@ -82,7 +82,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
         console.log("err found, reason:", err);
     })
     .then(job => {
-        if(job.user != req.user.id){
+        if(job.creator != req.user.id){
             req.flash('error_msg', 'Not Authorized');
             res.redirect('/jobs');
         } else {
@@ -98,22 +98,25 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 // Edit a Job
 router.put('/:id', ensureAuthenticated, (req, res) => {
     console.log("req.params are:", req.params);
-    Idea.findOne({
+    Job.findOne({
         _id: req.params.id
     })
-    .then(idea => {
-        if(idea.user != req.user.id){
+    .then(job => {
+        if(job.creator != req.user.id){
             req.flash('error_msg', 'Not Authorized');
-            res.redirect('/ideas');
+            res.redirect('/jobs');
         } else {
-            idea.title = req.body.title;
-            idea.details = req.body.details;
-            idea.date = Date.now();
-    
-            idea.save()
-            .then(idea => {
-                req.flash('success_msg', 'Idea edited succesfully');
-                res.redirect('/ideas');
+            job.title = req.body.title;
+            job.details = req.body.details;
+            job.startdate = req.body.startdate;
+            job.starttime = req.body.starttime;
+            job.location = req.body.location;
+            job.duration = req.body.duration;
+            console.log(job);
+            job.save()
+            .then(job => {
+                req.flash('success_msg', 'Job edited succesfully');
+                res.redirect('/jobs');
             })
         }
     });
@@ -122,17 +125,17 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
 // Delete an Job
 router.delete('/:id', ensureAuthenticated, (req, res) => {
     console.log("Job number", req.params.id, "got deleted");
-    Idea.findOne({_id: req.params.id})
+    Job.findOne({_id: req.params.id})
     .then( job => {
         if(job.creator != req.user.id) {
             req.flash('error_msg', 'Not Authorized');
         }
     })
     // Can I have two promise here? Should I chain them?  
-    Idea.remove({_id: req.params.id})
+    Job.remove({_id: req.params.id})
     .then(() => {
-        req.flash('success_msg', 'Idea deleted succesfully');
-        res.redirect('/ideas');
+        req.flash('success_msg', 'Job deleted succesfully');
+        res.redirect('/jobs');
     });
     
 })

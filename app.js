@@ -26,10 +26,11 @@ require('./config/passport')(passport);
 // DB Config
 const db = require('./config/database');
 
+// use public
+app.use(express.static('public'));
 
 
-
-// // Connect to mongoose
+// Connect to mongoose
 mongoose.connect(db.mongoURI, {
     useMongoClient: true
 })
@@ -152,3 +153,7 @@ app.listen(port, ()=> {
     console.log(`Server started on port ${port}`);
     console.log("Hello Node.js!");
 });
+
+
+
+
