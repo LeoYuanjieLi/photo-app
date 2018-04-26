@@ -9,19 +9,52 @@ mongoose.Promise = global.Promise;
 
 // import Job Schema
 const { Job } = require('../models/Job');
+// import User Schema
+require('../models/User');
+const User = mongoose.model('users');
 
 // -------------------------------------------------------
+
+
 
 // Jobs Route
 router.get('/', ensureAuthenticated, (req, res) => {
     console.log("successful connect to /jobs route.");
-    Job.find({})
-    .sort({date:'desc'})
-    .then( jobs => {
-        res.render( './jobs/index', {
-            jobs: jobs 
-        })       
-    });
+    // photographer will have their dashboard with the function - take this job;
+    if(req.user.userType === "photographer"){
+        Job.find({})
+        .sort({date:'desc'})
+        .then( jobs => {
+            // create a new attribute for each job object, called creatorName
+            for (let i = 0; i < jobs.length; i++) {
+                jobs[i]["currentUser"] = req.user.id;
+                User.findOne({_id: jobs[i].creator}).then(creator => {
+                    jobs[i]["creatorName"] = creator.name;
+                });
+            }
+            res.render( './jobs/index-photo', {
+                jobs: jobs 
+            })       
+        });
+    }
+    else {
+    // client will have dashboard with the functions - edit a job; delete a job;
+
+        Job.find({})
+        .sort({date:'desc'})
+        .then( jobs => {
+            // create a new attribute for each job object, called creatorName
+            for (let i = 0; i < jobs.length; i++) {
+                jobs[i]["currentUser"] = req.user.id;
+                User.findOne({_id: jobs[i].creator}).then(creator => {
+                    jobs[i]["creatorName"] = creator.name;
+                });
+            }
+            res.render( './jobs/index', {
+                jobs: jobs
+            })       
+        });
+    }
 });
 
 
@@ -139,6 +172,31 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
     });
     
 })
+
+// Only for photographer
+// ------------------------------- Take a Job------------------------------------ //
+
+// take a job
+router.put('/:id', ensureAuthenticated, (req, res) => {
+    console.log("req.params are:", req.params);
+    Job.findOne({
+        _id: req.params.id
+    })
+    .then(job => {
+        if(req.user.userType != "photographer"){
+            req.flash('error_msg', 'Only photographers can take a job');
+            res.redirect('/jobs');
+        } else {
+            job.taker = req.user.id;
+            job.save()
+            .then(job => {
+                req.flash('success_msg', 'Succesfully take a job!');
+                res.redirect('/jobs');
+            })
+        }
+    });
+});
+
 
 
 module.exports = router;

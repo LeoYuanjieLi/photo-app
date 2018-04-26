@@ -12,3 +12,8 @@
 #datepicker {
     text-indent: 10px
 }
+
+.postBy {
+    color:white;
+    background-color: darkgreen;
+}

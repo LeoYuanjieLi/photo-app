@@ -11,13 +11,11 @@
         {{else}}<h5>Job Taken By: </h5>
                 <p>No taker yet</p>
         {{/if}}
-        {{#if (isCreator currentUser creator)}}
-        <a href="/jobs/edit/{{_id}}" class="btn btn-light border-dark btn-block mb-2">Edit</a>
-        <form method="post" action="/jobs/{{id}}?_method=DELETE">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" class="btn btn-danger btn-block mb-2">Delete</button>
-        </form>
-        {{/if}}
+
+    <form action="/jobs/{{job._id}}?_method=PUT" method="post">
+        <input type="hidden" name="_method" value="PUT">        
+        <button type="submit" class="btn btn-primary border-dark btn-block mb-2">Take this Job!</button>
+    </form>
     </div>
 {{else}}
     <h3 style="color:grey">No jobs listed</h3>

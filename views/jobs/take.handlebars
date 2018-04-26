@@ -1,0 +1,15 @@
+<h2>Job Details</h2>
+<div class="card card-body">
+    <h3>Edit My Job</h3>
+    <p>{{job.title}}</p>
+    <p>{{job.details}}</p>
+    <p>{{job.location}}</p>
+    <p>{{job.startdate}}</p>
+    <p>{{job.starttime}}</p>
+    <p>{{job.duration}}</p>
+
+    <form action="/jobs/{{job._id}}/photographer?_method=PUT" method="post">
+        <button type="submit" class="btn btn-light border-dark">Take The Job</button>
+        <button class="btn btn-light border-dark"> <a href="/jobs" style=" text-decoration: None">Go Back</a></button>
+    </form>
+</div>

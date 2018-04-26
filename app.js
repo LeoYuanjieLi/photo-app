@@ -44,7 +44,8 @@ mongoose.connect(db.mongoURI, {
 
 // Handlebars Helpers
 const {
-    isclient
+    isclient,
+    isCreator
 } = require('./helpers/hbs');
 
 
@@ -56,7 +57,8 @@ const {
 app.engine('handlebars', exphbs({
 
     helpers: {
-        isclient: isclient
+        isclient: isclient,
+        isCreator: isCreator
     }, 
 
     defaultLayout: 'main'
