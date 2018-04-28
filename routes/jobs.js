@@ -31,6 +31,14 @@ router.get('/', ensureAuthenticated, (req, res) => {
                 User.findOne({_id: jobs[i].creator}).then(creator => {
                     jobs[i]["creatorName"] = creator.name;
                 });
+                User.findOne({_id: jobs[i].taker})
+                .catch(err => {
+                    jobs[i]['takerName'] = undefined;
+                })
+                .then(taker => {
+                    jobs[i]['takerName'] = taker.name;
+                    console.log("taker name is", takerName);
+                });
             }
             res.render( './jobs/index-photo', {
                 jobs: jobs 
@@ -48,6 +56,14 @@ router.get('/', ensureAuthenticated, (req, res) => {
                 jobs[i]["currentUser"] = req.user.id;
                 User.findOne({_id: jobs[i].creator}).then(creator => {
                     jobs[i]["creatorName"] = creator.name;
+                });
+                User.findOne({_id: jobs[i].taker})
+                .catch(err => {
+                    jobs[i]['takerName'] = undefined;
+                })
+                .then(taker => {
+                    jobs[i]['takerName'] = taker.name;
+                    console.log("taker name is", takerName);
                 });
             }
             res.render( './jobs/index', {
@@ -177,7 +193,7 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
 // ------------------------------- Take a Job------------------------------------ //
 
 // take a job
-router.put('/:id', ensureAuthenticated, (req, res) => {
+router.put('/take/:id', (req, res) => {
     console.log("req.params are:", req.params);
     Job.findOne({
         _id: req.params.id
@@ -190,13 +206,32 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
             job.taker = req.user.id;
             job.save()
             .then(job => {
-                req.flash('success_msg', 'Succesfully take a job!');
+                req.flash('success_msg', 'Succesfully taken a job!');
                 res.redirect('/jobs');
             })
         }
     });
 });
 
-
+// untake a job
+router.put('/untake/:id', (req, res) => {
+    console.log("req.params are:", req.params);
+    Job.findOne({
+        _id: req.params.id
+    })
+    .then(job => {
+        if(req.user.userType != "photographer"){
+            req.flash('error_msg', 'Only photographers can take a job');
+            res.redirect('/jobs');
+        } else {
+            job.taker = undefined;
+            job.save()
+            .then(job => {
+                req.flash('success_msg', 'Succesfully untaken a job!');
+                res.redirect('/jobs');
+            })
+        }
+    });
+});
 
 module.exports = router;

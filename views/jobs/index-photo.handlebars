@@ -1,21 +1,38 @@
 {{#each jobs}}
     <div class="card card-body mb-2">
         <h4>{{title}}</h4>
+        <h5>Start Time</h5>
+        <p>{{startdate}}</p>
+        <p>{{starttime}}</p>
+        <h5>Duration(hours):</h5>
+        <p>{{duration}}</p>
+        <h5>location</h5>
+        <p>{{location}}</p>
         <p>{{details}}</p>
         <h5>Job Post By:</h5>
-        <h6>{{creatorName}}</h6>
+        <h6 class="btn btn-light border-dark post-taken" >{{creatorName}}</h6>
         <br/>
         {{#if taker}}
             <h5>Job Taken By: </h5>
-            <p class="postBy">{{taker}}</p>
+            <p class="btn btn-light border-dark post-taken">{{takerName}}</p>
         {{else}}<h5>Job Taken By: </h5>
-                <p>No taker yet</p>
+                <p class="btn btn-light border-dark post-taken">No taker yet</p>
         {{/if}}
-
-    <form action="/jobs/{{job._id}}?_method=PUT" method="post">
-        <input type="hidden" name="_method" value="PUT">        
-        <button type="submit" class="btn btn-primary border-dark btn-block mb-2">Take this Job!</button>
-    </form>
+    {{#if (isTaker currentUser taker)}}
+        <form action="/jobs/untake/{{_id}}?_method=PUT" method="post">
+            <input type="hidden" name="_method" value="PUT">        
+            <button type="submit" class="btn btn-danger border-dark btn-block mb-2">Drop this Job!</button>
+        </form>     
+    {{else}}
+        {{#if taker}}
+            <button type="submit" class="btn btn-warning border-dark btn-block mb-2">Job is taken by others...</button>
+        {{else}}
+            <form action="/jobs/take/{{_id}}?_method=PUT" method="post">
+                <input type="hidden" name="_method" value="PUT">        
+                <button type="submit" class="btn btn-primary border-dark btn-block mb-2">Take this job!</button>
+            </form>
+        {{/if}}   
+    {{/if}}
     </div>
 {{else}}
     <h3 style="color:grey">No jobs listed</h3>
