@@ -100,6 +100,34 @@ router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
     res.redirect('/users/login');
+});
+
+
+// -------------------------------------------------------
+const {ensureAuthenticated} = require('./helpers/auth');
+
+// import Job Schema
+const { Job } = require('../models/Job');
+
+
+// render photo grapher biography page
+router.get('/bio-photo', ensureAuthenticated, (req, res) => {
+    Job.find({taker: req.user.id})
+    .then(jobs => {
+        res.render('./bio/bio-photo', {
+            jobs: jobs
+        });
+    });
+})
+
+// render clien biography page
+router.get('/bio-client', ensureAuthenticated, (req,res) => {
+    Job.find({creator: req.user.id})
+    .then(jobs => {
+        res.render('./bio/bio-client', {
+            jobs: jobs
+        });
+    });
 })
 
 

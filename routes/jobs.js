@@ -33,7 +33,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
                 });
                 User.findOne({_id: jobs[i].taker})
                 .catch(err => {
-                    jobs[i]['takerName'] = undefined;
+                    jobs[i]['takerName'] = "";
                 })
                 .then(taker => {
                     jobs[i]['takerName'] = taker.name;
@@ -59,7 +59,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
                 });
                 User.findOne({_id: jobs[i].taker})
                 .catch(err => {
-                    jobs[i]['takerName'] = undefined;
+                    jobs[i]['takerName'] = "";
                 })
                 .then(taker => {
                     jobs[i]['takerName'] = taker.name;
@@ -193,7 +193,7 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
 // ------------------------------- Take a Job------------------------------------ //
 
 // take a job
-router.put('/take/:id', (req, res) => {
+router.put('/take/:id', ensureAuthenticated, (req, res) => {
     console.log("req.params are:", req.params);
     Job.findOne({
         _id: req.params.id
@@ -214,7 +214,7 @@ router.put('/take/:id', (req, res) => {
 });
 
 // untake a job
-router.put('/untake/:id', (req, res) => {
+router.put('/untake/:id', ensureAuthenticated, (req, res) => {
     console.log("req.params are:", req.params);
     Job.findOne({
         _id: req.params.id
@@ -224,7 +224,7 @@ router.put('/untake/:id', (req, res) => {
             req.flash('error_msg', 'Only photographers can take a job');
             res.redirect('/jobs');
         } else {
-            job.taker = undefined;
+            job.taker = "";
             job.save()
             .then(job => {
                 req.flash('success_msg', 'Succesfully untaken a job!');

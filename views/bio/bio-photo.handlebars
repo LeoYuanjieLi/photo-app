@@ -1,0 +1,11 @@
+<h6>Profile</h6>
+<div class="card card-body">
+    <h2 class="light">{{user.name}}</h2>
+    <br>
+    <h4>My Jobs</h4>
+    <br>
+    {{#each jobs}}
+        <button class="btn btn-light mb-2 bio-client-button"><a class="bio-client-anchor" href="http://localhost:5000/jobs"> {{title}} | {{startdate}} | {{starttime}}</a></button>
+    {{/each}}
+    <h4>My Portfolio</h4>
+</div>

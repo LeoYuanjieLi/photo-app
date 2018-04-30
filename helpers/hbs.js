@@ -1,3 +1,4 @@
+
 module.exports = {
     isclient: function (user) {
         return user.userType === "client";
@@ -13,5 +14,6 @@ module.exports = {
         if(userID === jobTaker && userID != undefined && jobTaker != undefined) {
             return true;
         }
-    }
+    },
+
 }

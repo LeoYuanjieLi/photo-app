@@ -14,5 +14,13 @@
 }
 
 .post-taken {
-    width: 15%;
+    width: 25%;
+}
+
+.bio-client-button {
+    border: black 1px solid;
+}
+
+.bio-client-anchor {
+    text-decoration: none;
 }
