@@ -128,7 +128,7 @@ router.get('/bio-photo/', ensureAuthenticated, (req, res) => {
 })
 
 // render clien biography page
-router.get('/bio-client', ensureAuthenticated, (req,res) => {
+router.get('/bio-client/', ensureAuthenticated, (req,res) => {
     Job.find({creator: req.user.id})
     .then(jobs => {
         res.render('./bio/bio-client', {

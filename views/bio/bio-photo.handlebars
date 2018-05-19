@@ -10,7 +10,8 @@
     <h4>My Portfolio</h4>
     <p class="bg-light text-dark">Hi, here are my photography works! I hope you are enjoying them!</p>
     {{#each user.portfolio}}
-        <img src="..{{this}}" alt="image">
+        <img class="portfolio" src="..{{this}}" alt="image">
+        <br>
     {{/each}}
     <br>
     <h4>Upload An Image</h4>

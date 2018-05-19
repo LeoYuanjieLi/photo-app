@@ -127,7 +127,7 @@ function gougou(req, res, next) {
 
 // index.html route
 app.get('/', baobao, (req, res) => {
-    const welcome = "Welcome to Gougou baobao's page!";
+    const welcome = "Welcome to Photesy, the platform that connects decent photographers and people looking for great photos.";
     res.render("index", {
         title: welcome
     });

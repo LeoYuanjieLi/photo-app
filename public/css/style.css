@@ -1,5 +1,5 @@
 .logo {
-    width: 130px;
+    width: 200px;
     margin: auto
 }
 
@@ -54,4 +54,49 @@
 
 .inputfile + label {
 	cursor: pointer; /* "hand" cursor */
+}
+
+/* Home Page */
+.homepage-background-container {
+    background-image: url('img/background.jpg');
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    width:100%;
+    z-index: -1;
+}
+
+.homepage-container {
+    opacity: 0.8;
+}
+
+.homepage-container:hover {
+    opacity: 1;
+}
+
+
+/* About Page */
+
+.about-background-container {
+    background-image: url('img/about.jpg');
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background-position: right;
+    background-repeat: no-repeat;
+    
+    z-index: -1;
+}
+
+
+
+/* Portfolio pictures */
+
+.portfolio {
+    height: 100%;
+    width: 100%;
 }

@@ -1,5 +1,11 @@
-<div class="jumbotron text-center">
+<div class="homepage-background-container"></div>
+<div class="jumbotron text-center homepage-container">
     <h1 class="display-3">{{title}}</h1>
-    <p class="lead">Write down your secret thoughts for your creativities</p>
-    <a href="/ideas/add" class="btn btn-dark btn-lg">Add Secret Ideas</a>
+    <p class="lead">Join the community to enjoy great photoshooting experience.</p>
+    {{#if user}}
+    <a href="/jobs" class="btn btn-primary btn-lg">Go to Photo Job Market</a>
+    {{else}}
+    <a href="/users/register" class="btn btn-primary btn-lg">Sign Up</a>
+    <a href="/users/login" class="btn btn-light btn-lg"> Log In </a>
+    {{/if}}
 </div>

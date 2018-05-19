@@ -7,12 +7,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        {{#if user}}
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        {{else}}
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about">About</a>
         </li>
+        {{/if}}
+
       </ul>
       <ul class="navbar-nav ml-auto">
         {{#if user}}
