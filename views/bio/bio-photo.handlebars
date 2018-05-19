@@ -8,4 +8,19 @@
         <button class="btn btn-light mb-2 bio-client-button"><a class="bio-client-anchor" href="http://localhost:5000/jobs"> {{title}} | {{startdate}} | {{starttime}}</a></button>
     {{/each}}
     <h4>My Portfolio</h4>
+    <p class="bg-light text-dark">Hi, here are my photography works! I hope you are enjoying them!</p>
+    {{#each user.portfolio}}
+        <img src="..{{this}}" alt="image">
+    {{/each}}
+    <br>
+    <h4>Upload An Image</h4>
+    {{!-- upload images to my portfolio --}}
+    <form method="post" enctype="multipart/form-data" action="/users/uploads">
+    <input type="file" name="file" id="file" class="inputfile mb-2">
+    <label for="file">Choose a file</label>
+    <br>
+    <input type="submit" value="Submit" class="btn btn-primary border-dark">
+</form>
+<br>
+        <button class="btn btn-light border-dark"> <a href="/jobs" style=" text-decoration: None">Go Back</a></button>
 </div>

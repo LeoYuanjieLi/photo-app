@@ -24,3 +24,34 @@
 .bio-client-anchor {
     text-decoration: none;
 }
+
+
+
+/* upload image input */
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    color: black;
+    padding: 1%;
+    height: 38px;
+    background-color: white;
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: lightblue;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
