@@ -35,3 +35,22 @@
 - polish website
 
 - Photographers will get a notice to take a job when have time overlaps ***** (Optional)
+
+
+### SCREENSHOTS FOR ILLUSTRATION
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/signup.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/login.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/jobMarket.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/post-job.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/edit-my-job.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/take-drop.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/view-profile.JPG)
+
+![alt text](https://raw.githubusercontent.com/LeoYuanjieLi/photo-app/master/sample-images/upload-images.JPG)
