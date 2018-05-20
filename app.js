@@ -46,7 +46,8 @@ mongoose.connect(db.mongoURI, {
 const {
     isclient,
     isCreator,
-    isTaker
+    isTaker,
+    isCurrentUser
 } = require('./helpers/hbs');
 
 
@@ -60,7 +61,8 @@ app.engine('handlebars', exphbs({
     helpers: {
         isclient: isclient,
         isCreator: isCreator,
-        isTaker: isTaker
+        isTaker: isTaker,
+        isCurrentUser: isCurrentUser
     }, 
 
     defaultLayout: 'main'
@@ -112,21 +114,8 @@ app.use(function(req, res, next){
 
 
 
-
-// --------------------------------------------------------
-function baobao(req, res, next) {
-    console.log("I love my baobao at", Date.now());
-    next();
-};
-
-function gougou(req, res, next) {
-    console.log("Baobao love me at", Date.now());
-    next();
-};
-
-
 // index.html route
-app.get('/', baobao, (req, res) => {
+app.get('/', (req, res) => {
     const welcome = "Welcome to Photesy, the platform that connects decent photographers and people looking for great photos.";
     res.render("index", {
         title: welcome
@@ -134,7 +123,7 @@ app.get('/', baobao, (req, res) => {
 });
 
 // about route
-app.get('/about', gougou, (req, res) => {
+app.get('/about', (req, res) => {
     const baobao = "I am a baobao";
     res.render("about", {
         about: baobao

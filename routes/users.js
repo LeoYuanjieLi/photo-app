@@ -118,35 +118,40 @@ const { Job } = require('../models/Job');
 
 
 // render photo grapher biography page
-router.get('/bio-photo/', ensureAuthenticated, (req, res) => {
-    Job.find({taker: req.user.id})
-    .then(jobs => {
+router.get('/bio-photo/:id', ensureAuthenticated, (req, res) => {
+
+    User.findOne({_id: req.params.id})
+    .catch(err => {
+        console.log("err found, reason:", err);
+    })
+    .then(user => {
+        user.compareID = req.user.id;
         res.render('./bio/bio-photo', {
-            jobs: jobs
+            user: user
         });
     });
 })
 
 // render clien biography page
-router.get('/bio-client/', ensureAuthenticated, (req,res) => {
-    Job.find({creator: req.user.id})
-    .then(jobs => {
+router.get('/bio-client/:id', ensureAuthenticated, (req,res) => {
+    User.findOne({_id: req.params.id})
+    .catch(err => {
+        console.log("err found, reason:", err);
+    })
+    .then(user => {
         res.render('./bio/bio-client', {
-            jobs: jobs
+            user: user
         });
     });
 })
 
 
 
-// get the upload an image page
 
-router.get('/portfolio', ensureAuthenticated, function(req, res) {
-    
-})
+
 
 // upload an image
-router.post('/uploads', ensureAuthenticated, function(req, res) {
+router.post('/uploads/:id', ensureAuthenticated, function(req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
         // `file` is the name of the <input> field of type `file`
@@ -156,8 +161,9 @@ router.post('/uploads', ensureAuthenticated, function(req, res) {
             index = old_path.lastIndexOf('\\') + 1,
             file_name = old_path.substr(index),
             // file_name = "image";
-            mid_path = path.join('\\uploads\\', file_name + '.' + file_ext),
-            new_path=replaceAll(mid_path),
+            mid_path = path.join('\\users\\uploads\\', file_name + '.' + file_ext),
+            front_path = path.join('\\uploads\\', file_name + '.' + file_ext),
+            new_path=replaceAll(front_path),
             absolute_path = 'D:\\Dropbox\\Thinkful\\photo-App\\public' + mid_path;
         function replaceAll(str) {
             return str.replace(/\\/g, '/');
@@ -190,13 +196,13 @@ router.post('/uploads', ensureAuthenticated, function(req, res) {
                                         // code here
                                         user =>
                                         {req.flash('success_msg', 'Image uploaded succesfully');
-                                        res.redirect('./bio-photo');}
-                                    )
+                                        res.redirect(`../bio-photo/${req.params.id}`);
+                                    })
 
                                 }
                                 else {
                                     req.flash('error_msg', 'Image already uploaded');
-                                    res.redirect('./bio-photo');
+                                    res.redirect(`../bio-photo/${req.params.id}`);
                                 }
                             })
                     }
@@ -209,6 +215,16 @@ router.post('/uploads', ensureAuthenticated, function(req, res) {
 
     });
 });
+
+
+
+
+
+
+
+
+
+
 
 // -------------------------------------------------------
 // export router

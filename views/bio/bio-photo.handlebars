@@ -14,14 +14,16 @@
         <br>
     {{/each}}
     <br>
-    <h4>Upload An Image</h4>
-    {{!-- upload images to my portfolio --}}
-    <form method="post" enctype="multipart/form-data" action="/users/uploads">
-    <input type="file" name="file" id="file" class="inputfile mb-2">
-    <label for="file">Choose a file</label>
-    <br>
-    <input type="submit" value="Submit" class="btn btn-primary border-dark">
-</form>
+    {{#if (isCurrentUser user.id user.compareID)}}
+        <h4>Upload An Image</h4>
+        {{!-- upload images to my portfolio --}}
+        <form method="post" enctype="multipart/form-data" action="/users/uploads/{{user._id}}">
+        <input type="file" name="file" id="file" class="inputfile mb-2">
+        <label for="file">Choose a file</label>
+        <br>
+        <input type="submit" value="Submit" class="btn btn-primary border-dark">
+    </form>
+    {{/if}}
 <br>
         <button class="btn btn-light border-dark"> <a href="/jobs" style=" text-decoration: None">Go Back</a></button>
 </div>

@@ -26,12 +26,12 @@
 - Allow clients post their photo-shooting jobs
 - Allow photographers to build their portfolio
 - Photographer can take a job
+- In the jobs market, user(both client and photographer) can view a photographer's bio page for his/her portfolio.
 
 ### TO DO
 
-- Photographers shall not be able to take a job have time overlaps *****
-- View everybody's proflie even not logged in as that user ****
 - Delete an image from portfolio ****
 - Clients can accept or reject a photographer's request ****
-
 - polish website
+
+- Photographers will get a notice to take a job when have time overlaps ***** (Optional)

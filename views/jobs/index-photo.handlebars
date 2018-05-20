@@ -10,11 +10,11 @@
         <p>{{location}}</p>
         <p>{{details}}</p>
         <h5>Job Post By:</h5>
-        <a class="btn btn-light border-dark post-taken" href="http://localhost:5000/users/bio-client">{{creatorName}}</a>
+        <a href="users/bio-client/{{creator}}" class="btn btn-light border-dark post-taken">{{creatorName}}</a>
         <br/>
         {{#if taker}}
             <h5>Job Taken By: </h5>
-            <a class="btn btn-light border-dark post-taken mb-2" href="http://localhost:5000/users/bio-photo">{{takerName}}</a>
+            <a href="users/bio-photo/{{taker}}" class="btn btn-light border-dark post-taken mb-2">{{takerName}}</a>
         {{else}}<h5>Job Taken By: </h5>
                 <p class="btn btn-light border-dark post-taken">No taker yet</p>
         {{/if}}

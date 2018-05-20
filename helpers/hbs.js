@@ -14,5 +14,9 @@ module.exports = {
         if(userID === jobTaker && userID != undefined && jobTaker != undefined) {
             return true;
         }
+    },
+
+    isCurrentUser: function (userID, bioID) {
+        return userID === bioID;
     }
 }

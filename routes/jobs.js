@@ -18,6 +18,7 @@ const User = mongoose.model('users');
 
 
 // Jobs Route
+// Render the job list page
 router.get('/', ensureAuthenticated, (req, res) => {
     console.log("successful connect to /jobs route.");
     // photographer will have their dashboard with the function - take this job;
@@ -105,16 +106,26 @@ router.post('/', ensureAuthenticated, (req, res) => {
             location: req.body.location
         });
     } else {
-        const newUser = {};
+        const newJob = {};
         for (let i = 0; i < requiredFields.length; i++) {
             let field = requiredFields[i];
-            newUser[field] = req.body[field];
+            newJob[field] = req.body[field];
         }
-        newUser["creator"] = req.user.id;
-        console.log(newUser);
-        new Job(newUser)
+        newJob["creator"] = req.user.id;
+        console.log(newJob);
+        new Job(newJob)
         .save()
         .then(Job => {
+            // In user, it should also save the job ID as a string in the User.jobs array
+            User.findOne({_id:req.user.id})
+            .catch(err => {
+                console.log('err found, reason:', err);
+            })
+            .then(user => {
+                user.jobs.push(Job.id);
+                user.save()
+
+            })
             req.flash('success_msg', 'Job added succesfully');
             res.redirect('/jobs');
         })
@@ -206,8 +217,20 @@ router.put('/take/:id', ensureAuthenticated, (req, res) => {
             job.taker = req.user.id;
             job.save()
             .then(job => {
-                req.flash('success_msg', 'Succesfully taken a job!');
-                res.redirect('/jobs');
+
+            // In user, it should also save the job ID as a string in the User.jobs array when the photographer take the specific job
+            User.findOne({_id:req.user.id})
+            .catch(err => {
+                console.log('err found, reason:', err);
+            })
+            .then(user => {
+                user.jobs.push(Job.id);
+                user.save()
+
+            })
+
+            req.flash('success_msg', 'Succesfully taken a job!');
+            res.redirect('/jobs');
             })
         }
     });
