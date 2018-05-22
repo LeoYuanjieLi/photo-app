@@ -217,22 +217,23 @@ router.post('/uploads/:id', ensureAuthenticated, function(req, res) {
 });
 
 // Delete an image
-router.delete('/:id', ensureAuthenticated, function(req, res) {
-
+router.put('/:id', ensureAuthenticated, function(req, res) {
+    console.log('put is running');
     //Find the user in database, and then update the portfolio -- remove the current string from the array portfolio. 
     User.findOne({id: req.user.id})
     .then(user => {
         // loop through the portfolio to find the specific string that equals to the param id. And remove it from the array.
-
+        let currentPortfolio;
         for (let i = 0; i < user.portfolio.length; i++) {
             if (portfolio[i] == req.params.id) {
+                currentPortfolio = portflio[i];
                 user.portfolio.splice(i, 1);
             }
         }
         // remove the photo from the directory
-        fs.unlink('path/file.txt', (err) => {
+        fs.unlink(`D:\\Dropbox\\Thinkful\\photo-App\\public\\users\\uploads\\${currentPortfolio}`, (err) => {
             if (err) throw err;
-            console.log('path/file.txt was deleted');
+            console.log(`${currentPortfolio} got deleted...`);
           });
         user.save()
         .catch(err => {

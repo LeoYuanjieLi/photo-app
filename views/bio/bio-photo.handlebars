@@ -11,10 +11,12 @@
     <p class="bg-light text-dark">Hi, here are my photography works! I hope you are enjoying them!</p>
     {{#each user.portfolio}}
         <img class="portfolio mb-2" src="..{{this}}" alt="image">
-        <form method="post" action="/users/{{user.portfolio}}?_method=DELETE">
-            <input type="hidden" name="_method" value="DELETE">
+        {{#if (isCurrentUser ../user.id ../user.compareID)}}
+        <form method="post" action="/users/{{user.id}}?_method=PUT">
+            <input type="hidden" name="_method" value="PUT">
             <button type="submit" class="btn btn-danger btn-block mb-2">Delete</button>
         </form>
+        {{/if}}
         <br>
     {{/each}}
     <br>
