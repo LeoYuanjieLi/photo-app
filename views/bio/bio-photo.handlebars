@@ -12,7 +12,7 @@
     {{#each user.portfolio}}
         <img class="portfolio mb-2" src="..{{this}}" alt="image">
         {{#if (isCurrentUser ../user.id ../user.compareID)}}
-        <form method="post" action="/users/{{user.id}}?_method=PUT">
+        <form method="post" action="/users/{{../user.id}}?_method=PUT">
             <input type="hidden" name="_method" value="PUT">
             <button type="submit" class="btn btn-danger btn-block mb-2">Delete</button>
         </form>

@@ -221,6 +221,9 @@ router.put('/:id', ensureAuthenticated, function(req, res) {
     console.log('put is running');
     //Find the user in database, and then update the portfolio -- remove the current string from the array portfolio. 
     User.findOne({id: req.user.id})
+    .catch(err => {
+        console.log("error found, reason", err);
+    })
     .then(user => {
         // loop through the portfolio to find the specific string that equals to the param id. And remove it from the array.
         let currentPortfolio;
