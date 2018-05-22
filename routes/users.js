@@ -193,7 +193,7 @@ router.post('/uploads/:id', ensureAuthenticated, function(req, res) {
                                     user.portfolio.push(new_path);
                                     user.save()
                                     .then(
-                                        // code here
+                                       
                                         user =>
                                         {req.flash('success_msg', 'Image uploaded succesfully');
                                         res.redirect(`../bio-photo/${req.params.id}`);
@@ -216,7 +216,43 @@ router.post('/uploads/:id', ensureAuthenticated, function(req, res) {
     });
 });
 
+// Delete an image
+router.delete('/:id', ensureAuthenticated, function(req, res) {
 
+    //Find the user in database, and then update the portfolio -- remove the current string from the array portfolio. 
+    User.findOne({id: req.user.id})
+    .then(user => {
+        // loop through the portfolio to find the specific string that equals to the param id. And remove it from the array.
+
+        for (let i = 0; i < user.portfolio.length; i++) {
+            if (portfolio[i] == req.params.id) {
+                user.portfolio.splice(i, 1);
+            }
+        }
+        // remove the photo from the directory
+        fs.unlink('path/file.txt', (err) => {
+            if (err) throw err;
+            console.log('path/file.txt was deleted');
+          });
+        user.save()
+        .catch(err => {
+            console.log("err found, reason:", err);
+        })
+        .then(
+            user =>
+            {req.flash('success_msg', 'Image deleted succesfully');
+            res.redirect(`/${req.user.id}`);            
+
+
+        })
+
+    })
+
+
+
+
+
+})
 
 
 
